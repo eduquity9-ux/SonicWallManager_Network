@@ -38,17 +38,19 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab1Network = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.gridSvrIps = new System.Windows.Forms.DataGridView();
+            this.btnLoadSvrIp = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnLoadSvrIp = new System.Windows.Forms.Button();
-            this.gridSvrIps = new System.Windows.Forms.DataGridView();
+            this.btnNonSscConfig = new System.Windows.Forms.Button();
+            this.btnSscConfig = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridInterfaces)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.Tab1Network.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridSvrIps)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridSvrIps)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -145,6 +147,8 @@
             // 
             // Tab1Network
             // 
+            this.Tab1Network.Controls.Add(this.btnSscConfig);
+            this.Tab1Network.Controls.Add(this.btnNonSscConfig);
             this.Tab1Network.Controls.Add(this.gridInterfaces);
             this.Tab1Network.Controls.Add(this.btnLoadInterfaces);
             this.Tab1Network.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
@@ -168,6 +172,30 @@
             this.tabPage2.Text = "Config Log";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // gridSvrIps
+            // 
+            this.gridSvrIps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridSvrIps.Location = new System.Drawing.Point(27, 143);
+            this.gridSvrIps.Name = "gridSvrIps";
+            this.gridSvrIps.RowHeadersWidth = 62;
+            this.gridSvrIps.RowTemplate.Height = 28;
+            this.gridSvrIps.Size = new System.Drawing.Size(887, 314);
+            this.gridSvrIps.TabIndex = 1;
+            this.gridSvrIps.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSvrIps_CellContentClick);
+            // 
+            // btnLoadSvrIp
+            // 
+            this.btnLoadSvrIp.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnLoadSvrIp.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLoadSvrIp.Location = new System.Drawing.Point(32, 37);
+            this.btnLoadSvrIp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnLoadSvrIp.Name = "btnLoadSvrIp";
+            this.btnLoadSvrIp.Size = new System.Drawing.Size(223, 62);
+            this.btnLoadSvrIp.TabIndex = 0;
+            this.btnLoadSvrIp.Text = "Load Object";
+            this.btnLoadSvrIp.UseVisualStyleBackColor = false;
+            this.btnLoadSvrIp.Click += new System.EventHandler(this.btnLoadSvrIp_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnLogout);
@@ -188,29 +216,33 @@
             this.panel2.Size = new System.Drawing.Size(1305, 572);
             this.panel2.TabIndex = 11;
             // 
-            // btnLoadSvrIp
+            // btnNonSscConfig
             // 
-            this.btnLoadSvrIp.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btnLoadSvrIp.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLoadSvrIp.Location = new System.Drawing.Point(32, 37);
-            this.btnLoadSvrIp.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnLoadSvrIp.Name = "btnLoadSvrIp";
-            this.btnLoadSvrIp.Size = new System.Drawing.Size(223, 62);
-            this.btnLoadSvrIp.TabIndex = 0;
-            this.btnLoadSvrIp.Text = "Load Object";
-            this.btnLoadSvrIp.UseVisualStyleBackColor = false;
-            this.btnLoadSvrIp.Click += new System.EventHandler(this.btnLoadSvrIp_Click);
+            this.btnNonSscConfig.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnNonSscConfig.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNonSscConfig.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnNonSscConfig.Location = new System.Drawing.Point(470, 34);
+            this.btnNonSscConfig.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnNonSscConfig.Name = "btnNonSscConfig";
+            this.btnNonSscConfig.Size = new System.Drawing.Size(223, 62);
+            this.btnNonSscConfig.TabIndex = 2;
+            this.btnNonSscConfig.Text = "Enable";
+            this.btnNonSscConfig.UseVisualStyleBackColor = false;
+            this.btnNonSscConfig.Click += new System.EventHandler(this.btnNonSscConfig_Click);
             // 
-            // gridSvrIps
+            // btnSscConfig
             // 
-            this.gridSvrIps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridSvrIps.Location = new System.Drawing.Point(27, 143);
-            this.gridSvrIps.Name = "gridSvrIps";
-            this.gridSvrIps.RowHeadersWidth = 62;
-            this.gridSvrIps.RowTemplate.Height = 28;
-            this.gridSvrIps.Size = new System.Drawing.Size(887, 314);
-            this.gridSvrIps.TabIndex = 1;
-            this.gridSvrIps.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridSvrIps_CellContentClick);
+            this.btnSscConfig.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.btnSscConfig.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSscConfig.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnSscConfig.Location = new System.Drawing.Point(800, 34);
+            this.btnSscConfig.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSscConfig.Name = "btnSscConfig";
+            this.btnSscConfig.Size = new System.Drawing.Size(223, 62);
+            this.btnSscConfig.TabIndex = 3;
+            this.btnSscConfig.Text = "DIsable";
+            this.btnSscConfig.UseVisualStyleBackColor = false;
+            this.btnSscConfig.Click += new System.EventHandler(this.btnSscConfig_Click);
             // 
             // DashboardForm
             // 
@@ -229,10 +261,10 @@
             this.tabControl1.ResumeLayout(false);
             this.Tab1Network.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridSvrIps)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.gridSvrIps)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -253,6 +285,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnLoadSvrIp;
         private System.Windows.Forms.DataGridView gridSvrIps;
+        private System.Windows.Forms.Button btnSscConfig;
+        private System.Windows.Forms.Button btnNonSscConfig;
     }
 
 }

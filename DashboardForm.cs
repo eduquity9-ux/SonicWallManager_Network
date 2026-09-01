@@ -17,6 +17,7 @@ namespace SonicWallManager
     {
         private readonly HttpClient client;
         private readonly string firewallIp;
+
         public DashboardForm(HttpClient httpClient, string ip)
         {
             InitializeComponent();
@@ -507,7 +508,139 @@ namespace SonicWallManager
                 MessageBox.Show("Failed to update: " + await response.Content.ReadAsStringAsync());
             }
         }
+        // ==================== DIRECT X2-X1 CONFIG BACKEND WITH POPUPS ====================
 
+        private const string RULE_X2X1_UUID = "00000000-0000-000d-0700-2cb8ed6abba0";
+
+        private async Task<(bool Success, string Message)> SetRuleX2X1State(bool enable)
+        {
+            try
+            {
+                string url = $"/api/sonicos/access-rules/ipv4/uuid/{RULE_X2X1_UUID}";
+
+                var payload = new
+                {
+                    access_rule = new
+                    {
+                        ipv4 = new
+                        {
+                            name = "X2-X1",
+                            enable = enable,
+                            from = "X2",
+                            to = "X1",
+                            action = "allow",
+                            source = new
+                            {
+                                address = new { any = true },
+                                port = new { any = true }
+                            },
+                            service = new { any = true },
+                            destination = new
+                            {
+                                address = new { any = true }
+                            },
+                            schedule = new { always_on = true },
+                            users = new
+                            {
+                                included = new { all = true },
+                                excluded = new { none = true }
+                            },
+                            priority = new { manual = 37 }
+                        }
+                    }
+                };
+
+                string json = JsonSerializer.Serialize(payload);
+                using (var content = new StringContent(json, Encoding.UTF8, "application/json"))
+                {
+                    var response = await client.PutAsync(url, content);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        string error = await response.Content.ReadAsStringAsync();
+                        return (false, $"Firewall PUT Error ({response.StatusCode}):\n{error}");
+                    }
+                }
+
+                // Auto-commit staged configuration
+                await CommitChanges();
+                return (true, "Configuration successfully saved and committed to firewall.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Exception occurred:\n{ex.Message}");
+            }
+        }
+
+        // Button: nonsscconfig (ENABLE RULE)
+        private async void btnNonSscConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                lblStatus.Text = "Applying Non-SSC Configuration (Enabling X2-X1)...";
+
+                var result = await SetRuleX2X1State(true);
+
+                if (result.Success)
+                {
+                    lblStatus.Text = "Non-SSC Configuration applied successfully.";
+                    MessageBox.Show(
+                        "SUCCESS!\n\nNon-SSC Configuration Applied.\nRule 'X2-X1' is now ENABLED and active.",
+                        "Non-SSC Config Status",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                else
+                {
+                    lblStatus.Text = "Failed to apply Non-SSC Configuration.";
+                    MessageBox.Show(
+                        $"FAILED!\n\nCould not enable rule 'X2-X1'.\n\nDetails:\n{result.Message}",
+                        "Configuration Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
+        // Button: sscconfig (DISABLE RULE)
+        private async void btnSscConfig_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.Cursor = Cursors.WaitCursor;
+                lblStatus.Text = "Applying SSC Configuration (Disabling X2-X1)...";
+
+                var result = await SetRuleX2X1State(false);
+
+                if (result.Success)
+                {
+                    lblStatus.Text = "SSC Configuration applied successfully.";
+                    MessageBox.Show(
+                        "SUCCESS!\n\nSSC Configuration Applied.\nRule 'X2-X1' is now DISABLED and active.",
+                        "SSC Config Status",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+                else
+                {
+                    lblStatus.Text = "Failed to apply SSC Configuration.";
+                    MessageBox.Show(
+                        $"FAILED!\n\nCould not disable rule 'X2-X1'.\n\nDetails:\n{result.Message}",
+                        "Configuration Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
         private async void btnLoadSvrIp_Click(object sender, EventArgs e)
         {
             // 1. Prepare the grid columns first
